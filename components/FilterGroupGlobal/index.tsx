@@ -18,10 +18,7 @@ export interface ListSelectOptionType {
   mode?: "multiple" | "tags";
   placeholder?: string;
   width?: number;
-  optionSelect: {
-    value: string | number;
-    label: string;
-  }[];
+  optionSelect: any;
   loading?: boolean;
   tooltip?: string;
   title?: string;

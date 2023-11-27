@@ -14,7 +14,6 @@ export default function Navbar(): JSX.Element {
 
   const user = useSelector((state: IRootState) => state.user);
 
-  console.log("user", user);
   const dispatch = useDispatch();
 
   const handleLogout = (): void => {
@@ -82,16 +81,14 @@ export default function Navbar(): JSX.Element {
       <div className="left-content-wrap">
         <Dropdown overlay={menuUser} placement="topLeft" className="user-wrap">
           <div>
-            <span className="user-name">
-              Hello, {user?.userInformationDto?.fullName}!
-            </span>
+            <span className="user-name">Hello, {user?.fullName}!</span>
             <div className="avatar">
-              {user?.userInformationDto?.avatar ? (
+              {user?.avatar ? (
                 <Image
                   preview={false}
                   width={30}
                   height={30}
-                  src={user?.userInformationDto.avatar}
+                  src={user?.avatar}
                   style={{borderRadius: "50%"}}
                 />
               ) : (

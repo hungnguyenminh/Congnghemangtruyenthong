@@ -155,31 +155,6 @@ export async function fetcher<T>(
         reject(dataError);
       })
       .catch((error: AxiosError<IErrorDTO>) => {
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 401) {
-            notification.error({
-              message: "Phiên đăng nhập đã hết hạn",
-              description: "Vui lòng đăng nhập lại",
-            });
-            window.location.href = "/login";
-          } else {
-            const dataError: IDataError = {
-              errorCode: error.response?.data?.headerCode,
-              errorMessageArr: error.response?.data?.response?.message,
-            };
-
-            if (defaultOptions.displayError) {
-              displayError(dataError);
-            }
-          }
-        } else {
-          // Native error
-          notification.error({
-            message: "Something is wrong. Please try again",
-            description: _.toString(error),
-          });
-        }
-
         return reject(error);
       });
   });

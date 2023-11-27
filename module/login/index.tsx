@@ -3,7 +3,12 @@ import "./index.scss";
 import {Formik} from "formik";
 import ErrorMessageGlobal from "@app/components/ErrorMessageGlobal";
 import {InputGlobal, InputPasswordGlobal} from "@app/components/InputGlobal";
-import {UnlockOutlined, UserOutlined} from "@ant-design/icons";
+import {
+  GithubOutlined,
+  GoogleOutlined,
+  UnlockOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import {ButtonGlobal} from "@app/components/ButtonGlobal";
 import ApiUser from "@app/api/ApiUser";
 import {useMutation} from "react-query";
@@ -11,6 +16,9 @@ import {useDispatch} from "react-redux";
 import {loginUser} from "@app/redux/slices/UserSlice";
 import {useRouter} from "next/router";
 import {notification} from "antd";
+import {signInWithPopup, GoogleAuthProvider} from "@firebase/auth";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {authFirebase} from "@app/config/firebase";
 
 interface UserAccount {
   username: string;
@@ -20,6 +28,31 @@ interface UserAccount {
 export function Login(): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const googleAuth = new GoogleAuthProvider();
+  const [user] = useAuthState(authFirebase);
+
+  const handleLoginSocial = async () => {
+    const result = await signInWithPopup(authFirebase, googleAuth)
+      .then((res) => {
+        notification.success({
+          message: "Đăng nhập thành công!",
+        });
+        const user = {
+          userId: res.user.uid,
+          fullName: res.user.displayName,
+          email: res.user.email,
+          accessToken: res.user.accessToken,
+          avatar: res.user.photoURL,
+        };
+        dispatch(loginUser(user));
+
+        router.push("/");
+      })
+      .then((error) => {
+        console.log("error", error);
+      });
+  };
 
   const initialValues: UserAccount = {
     username: "",
@@ -114,6 +147,14 @@ export function Login(): JSX.Element {
                 type="primary-filled"
                 loading={login.isLoading}
               />
+              <div className="list-login-social">
+                <div onClick={handleLoginSocial} className="login-google">
+                  <GoogleOutlined />
+                </div>
+                <div className="login-github">
+                  <GithubOutlined />
+                </div>
+              </div>
             </div>
           </div>
         );

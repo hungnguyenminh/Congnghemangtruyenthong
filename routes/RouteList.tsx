@@ -1,13 +1,5 @@
 import {ReactNode} from "react";
-import {
-  BlockOutlined,
-  IdcardOutlined,
-  MoneyCollectOutlined,
-  PicRightOutlined,
-  SettingOutlined,
-  UserOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
+import {PicRightOutlined, UserOutlined} from "@ant-design/icons";
 
 export interface IRoute {
   path: string;
@@ -27,50 +19,15 @@ const routes: IRoute[] = [
   },
   {
     path: "/manager_user",
-    name: "User",
+    name: "Student",
     isSidebar: true,
     icon: <UserOutlined className="icon-sidebar" />,
   },
   {
     path: "/list_booking",
-    name: "Booking",
+    name: "Class",
     isSidebar: true,
     icon: <PicRightOutlined className="icon-sidebar" />,
-  },
-  {
-    path: "/list_service",
-    name: "Service",
-    isSidebar: true,
-    icon: <BlockOutlined className="icon-sidebar" />,
-  },
-  {
-    path: "/list_apply",
-    name: "Apply",
-    isSidebar: true,
-    icon: <IdcardOutlined className="icon-sidebar" />,
-  },
-  {
-    path: "/detail_apply",
-    name: "Detail Apply",
-    isSidebar: false,
-  },
-  {
-    path: "/list_transaction",
-    name: "Transaction",
-    isSidebar: true,
-    icon: <MoneyCollectOutlined className="icon-sidebar" />,
-  },
-  {
-    path: "/list_report",
-    name: "Report",
-    isSidebar: true,
-    icon: <WarningOutlined className="icon-sidebar" />,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    isSidebar: true,
-    icon: <SettingOutlined className="icon-sidebar" />,
   },
 ];
 

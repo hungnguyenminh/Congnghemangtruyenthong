@@ -1,99 +1,46 @@
 import React, {useEffect, useState} from "react";
-import {Image, Modal, notification, Table, Tabs, Tag, Tooltip} from "antd";
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
+import {Table, Tag, Image, Button} from "antd";
 import FilterGroupGlobal from "@app/components/FilterGroupGlobal";
-import {
-  getAllBooking,
-  IListItemBooking,
-  rejectAproveBooking,
-} from "@app/api/ApiProduct";
-import {useMutation, useQuery} from "react-query";
-import {ModalViewDetailBooking} from "@app/module/list_booking/components/ModalViewDetailBooking";
 import "./index.scss";
-import {itemsTab} from "@app/module/list_booking/listDataDefault";
-import {ModalDeleteBooking} from "@app/module/list_booking/components/ModalDeleteBooking";
+import {onValue, ref} from "@firebase/database";
+import {database, url} from "@app/config/firebase";
 
 export function ListBooking(): JSX.Element {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalDeleteBooking, setIsModalDeleteBooking] = useState(false);
-  const [dataBooking, setDataBooking] = useState<IListItemBooking[]>([]);
-  const [bookingIdSelected, setBookingIdSelected] = useState<
-    number | undefined
-  >(undefined);
-  const [keyTabSelected, setKeyTabSelected] = useState<string>("");
-
+  const [listClassInit, setListClassInit] = useState();
   // action reject - post
-  const rejectBookingMutate = useMutation(rejectAproveBooking);
-  const getDataListBooking = (): Promise<any> =>
-    // IGetAllBookingRes
-    getAllBooking({
-      page: 1,
-      size: 10,
-      statuses: keyTabSelected,
-    });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataRef = ref(database, url);
 
-  const dataListBooking = useQuery(["GET_LIST_ICON"], getDataListBooking, {
-    onSuccess: (res) => {
-      console.log("res1111", res?.data?.content);
+        onValue(dataRef, (snapshot) => {
+          const dataFromFirebase = snapshot.val();
 
-      setDataBooking(res.data.content);
-    },
-  });
+          // convert data
+          const newArray = Object.keys(dataFromFirebase).map((idClass) => {
+            return {
+              id: Object.keys(dataFromFirebase[idClass])[0],
+              Name: dataFromFirebase[idClass].Name,
+              Date: dataFromFirebase[idClass].Date,
+              QR: "",
+            };
+          });
 
-  const showModal = (id: number) => {
-    setIsModalOpen(true);
-    setBookingIdSelected(id);
-  };
-
-  const showModalDeleteBooking = (id: number) => {
-    setIsModalDeleteBooking(true);
-    setBookingIdSelected(id);
-  };
-
-  const handleAcceptBooking = (id?: number) => {
-    if (id) {
-      rejectBookingMutate.mutate(
-        {
-          id: id,
-          action: "approved",
-        },
-        {
-          onSuccess: () => {
-            notification.success({
-              message: "Phê duyệt thành công!",
-            });
-            dataListBooking.refetch();
-          },
-          onError: () => {},
-        }
-      );
-    }
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setIsModalDeleteBooking(false);
-  };
-
-  const handleSubmit = (data: any) => {
-    console.log("data", data);
-  };
+          console.log("newArray", newArray);
+          setListClassInit(newArray);
+        });
+      } catch (error) {
+        console.error("Error fetching data from Firebase:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleSearch = (valueSearch: string): void => {
     console.log("Ssss");
   };
 
-  const onChangeTab = (key: string) => {
-    setKeyTabSelected(key === "all" ? "" : key);
-  };
-
-  useEffect(() => {
-    dataListBooking.refetch();
-  }, [keyTabSelected]);
+  const handleAddQr = (value: string): void => {};
 
   const listSearchText = [
     {
@@ -103,212 +50,78 @@ export function ListBooking(): JSX.Element {
       tooltip: "Từ khóa: Tiêu đề",
     },
   ];
-  const listDatePicker = [
-    {
-      onChange: (startTime: number, endTime: number): void => {
-        console.log("startTime", startTime);
-        console.log("endTime", endTime);
-      },
-      tooltip: "Ngày tạo",
-      title: "Ngày tạo",
-    },
-  ];
+
   const columns: any = [
     {
-      title: "STT",
-      dataIndex: "stt",
-      key: "stt",
-      align: "center",
-      width: 70,
-      render: (_: any, dataIndex: any) => (
-        <div>{dataBooking.indexOf(dataIndex) + 1}</div>
-      ),
-    },
-    {
-      title: "Mã đơn hàng",
-      dataIndex: "bookingCode",
-      key: "bookingCode",
+      title: "Mã lớp",
+      dataIndex: "id",
+      key: "id",
       width: 150,
       align: "center",
     },
     {
-      title: "Ảnh đại diện",
-      dataIndex: "renterAvatar",
-      key: "image",
-      render: (_, dataIndex: any) => (
-        <div>
-          <Image
-            style={{borderRadius: 100}}
-            width={100}
-            height={100}
-            preview={false}
-            src={dataIndex.renterAvatar}
-          />
-        </div>
-      ),
-      align: "center",
-      width: 140,
-    },
-    {
-      title: "Người thuê",
-      key: "renterName",
-      dataIndex: "renterName",
+      title: "Tên lớp",
+      key: "Name",
+      dataIndex: "Name",
       align: "center",
       // render: (_, dataIndex) => <div>Phân loại: {dataIndex.description}</div>,
       width: 140,
     },
     {
-      title: "SĐT người thuê",
-      dataIndex: "renterPhoneNumber",
-      key: "renterPhoneNumber",
+      title: "Ngày học",
+      dataIndex: "Date",
+      key: "Date",
       align: "center",
       width: 140,
     },
     {
-      title: "Ngày đặt hàng",
-      dataIndex: "orderDate",
-      key: "orderDate",
+      title: "Mã QR",
+      dataIndex: "QR",
+      key: "QR",
       align: "center",
       width: 140,
-    },
-    {
-      title: "Số lượng yêu cầu",
-      dataIndex: "requestCount",
-      key: "requestCount",
-      align: "center",
-      width: 150,
-    },
-    {
-      title: "Tổng giá",
-      dataIndex: "totalPrice",
-      key: "totalPrice",
-      align: "center",
-      width: 140,
-    },
-    {
-      title: "totalPriceActual",
-      dataIndex: "totalPriceActual",
-      key: "totalPriceActual",
-      align: "center",
-      width: 140,
-    },
-    {
-      title: "Trạng thái đơn hàng",
-      dataIndex: "bookingStatus",
-      key: "bookingStatus",
-      align: "center",
-      fixed: "right",
-      width: 170,
       render: (_, dataIndex: any) => (
         <div>
-          {dataIndex.bookingStatus === "NOT_YET" && (
-            <Tag color="cyan">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "ON_CART" && (
-            <Tag color="volcano">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "REJECTED" && (
-            <Tag color="orange">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "APPROVED" && (
-            <Tag color="green">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "FINISHED" && (
-            <Tag color="red">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "NO_MONEY" && (
-            <Tag color="purple">{dataIndex.bookingStatus}</Tag>
-          )}
-          {dataIndex.bookingStatus === "CANCELED" && (
-            <Tag color="red">{dataIndex.bookingStatus}</Tag>
-          )}
+          <Image preview={false} width={200} src={dataIndex.QR} />
         </div>
       ),
     },
     {
       title: "Thao tác",
-      key: "action",
-      dataIndex: "action",
       align: "center",
-      render: (_: any, dataIndex: any) => (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {/* <Button type="primary" shape="round"> */}
-          {/*  Xem chi tiết */}
-          {/* </Button> */}
-          <Tooltip placement="top" title="xem chi tiết">
-            <div
-              onClick={() => showModal(dataIndex.bookingId)}
-              style={{marginLeft: 8}}
-            >
-              <EyeOutlined style={{fontSize: 27, color: "blue"}} />
-            </div>
-          </Tooltip>
-
-          {dataIndex.bookingStatus === "NOT_YET" && (
-            <>
-              <Tooltip placement="top" title="approve">
-                <div
-                  onClick={() => handleAcceptBooking(dataIndex.bookingId)}
-                  style={{marginLeft: 8}}
-                >
-                  <CheckCircleOutlined style={{fontSize: 22, color: "green"}} />
-                </div>
-              </Tooltip>
-
-              <Tooltip placement="top" title="reject">
-                <div
-                  onClick={() => showModalDeleteBooking(dataIndex.bookingId)}
-                  style={{marginLeft: 8}}
-                >
-                  <CloseCircleOutlined
-                    style={{fontSize: 22, color: "orange"}}
-                  />
-                </div>
-              </Tooltip>
-            </>
-          )}
+      fixed: "right",
+      width: 170,
+      render: (_, dataIndex: any) => (
+        <div>
+          <Button onClick={() => handleAddQr("22")} type="primary">
+            Tạo mã QR
+          </Button>
         </div>
       ),
-      fixed: "right",
-      width: 140,
     },
   ];
 
   return (
     <div className="list-booking-container">
-      <Tabs defaultActiveKey="all" items={itemsTab} onChange={onChangeTab} />
-      <FilterGroupGlobal
-        listSearchText={listSearchText}
-        listDatePicker={listDatePicker}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: 25,
+        }}
+      >
+        <FilterGroupGlobal listSearchText={listSearchText} />
+        <Button onClick={() => handleAddQr("22")} type="primary">
+          Tạo lớp mới
+        </Button>
+      </div>
       <Table
         style={{marginTop: 10}}
         scroll={{x: 600, y: 485}}
         columns={columns}
-        dataSource={dataBooking}
+        dataSource={listClassInit}
         className="table-list-booking"
         pagination={false}
-      />
-      <Modal
-        title="Chi tiết đơn hàng"
-        open={isModalOpen}
-        onOk={handleSubmit}
-        onCancel={handleCancel}
-        footer={false}
-      >
-        <ModalViewDetailBooking bookingId={bookingIdSelected} />
-      </Modal>
-
-      <ModalDeleteBooking
-        bookingId={bookingIdSelected}
-        isModalDeleteBooking={isModalDeleteBooking}
-        handleCancel={handleCancel}
       />
     </div>
   );

@@ -42,4 +42,20 @@
     width: 370px;
     margin-left: 0;
   }
+
+  .list-login-social {
+    display: flex;
+    justify-content: center;
+
+    .login-google {
+      font-size: 45px;
+      color: red;
+      margin: 0 7px;
+    }
+
+    .login-github {
+      font-size: 45px;
+      margin: 0 7px;
+    }
+  }
 }
