@@ -2,9 +2,15 @@
   height: 100%;
 }
 
+body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .wrapper {
   min-height: 100%;
   width: 100%;
   display: flex;
+  height: 100vh;
   //background-color: #f0f2f5;
 }

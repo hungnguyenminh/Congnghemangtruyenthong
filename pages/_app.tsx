@@ -3,7 +3,6 @@ import {PersistGate} from "redux-persist/integration/react";
 import {QueryClient, QueryClientProvider} from "react-query";
 import store, {persistor} from "../redux/store";
 import Routes from "../routes";
-import "antd/dist/antd.css";
 import "../styles/_app.scss";
 import "../utils/I18n";
 import {AppProps} from "next/app";

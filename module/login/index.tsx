@@ -104,55 +104,49 @@ export function Login(): JSX.Element {
     >
       {({handleSubmit}): JSX.Element => {
         return (
-          <div className="login-container">
+          <div className="login-main">
             <div className="login-container">
-              <div className="login-form-item">
-                <InputGlobal
-                  name="username"
-                  placeholder="username"
-                  prefix={<UserOutlined />}
-                  className="input_login"
-                  onPressEnter={(): void => handleSubmit()}
-                />
-                <ErrorMessageGlobal name="username" />
-              </div>
-
-              <div className="login-form-item">
-                <InputPasswordGlobal
-                  name="password"
-                  placeholder="Password"
-                  prefix={<UnlockOutlined />}
-                  className="input_login"
-                  onPressEnter={(): void => handleSubmit()}
-                />
-                <ErrorMessageGlobal name="password" />
-              </div>
-
-              <div className="forgot-password-wrap">
-                {/* <CheckboxGlobal */}
-                {/*  name="remember" */}
-                {/*  checked */}
-                {/*  onChange={(e): void => handleCheckRemember(e.target.checked)} */}
-                {/* > */}
-                {/*  Nhớ tài khoản */}
-                {/* </CheckboxGlobal> */}
-
-                <span className="forgot-password_link">Quên mật khẩu?</span>
-              </div>
-
-              <ButtonGlobal
-                onClick={handleSubmit}
-                className="btn-login"
-                title="Đăng nhập"
-                type="primary-filled"
-                loading={login.isLoading}
-              />
-              <div className="list-login-social">
-                <div onClick={handleLoginSocial} className="login-google">
-                  <GoogleOutlined />
+              <div className="">
+                <div className="login-form-item">
+                  <InputGlobal
+                    name="username"
+                    placeholder="username"
+                    prefix={<UserOutlined />}
+                    className="input_login"
+                    onPressEnter={(): void => handleSubmit()}
+                  />
+                  <ErrorMessageGlobal name="username" />
                 </div>
-                <div className="login-github">
-                  <GithubOutlined />
+
+                <div className="login-form-item">
+                  <InputPasswordGlobal
+                    name="password"
+                    placeholder="Password"
+                    prefix={<UnlockOutlined />}
+                    className="input_login"
+                    onPressEnter={(): void => handleSubmit()}
+                  />
+                  <ErrorMessageGlobal name="password" />
+                </div>
+
+                <div className="forgot-password-wrap">
+                  <span className="forgot-password_link">Quên mật khẩu?</span>
+                </div>
+
+                <ButtonGlobal
+                  onClick={handleSubmit}
+                  className="btn-login"
+                  title="Đăng nhập"
+                  type="primary-filled"
+                  loading={login.isLoading}
+                />
+                <div className="list-login-social">
+                  <div onClick={handleLoginSocial} className="login-google">
+                    <GoogleOutlined />
+                  </div>
+                  <div className="login-github">
+                    <GithubOutlined />
+                  </div>
                 </div>
               </div>
             </div>

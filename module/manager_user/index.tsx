@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {ColumnsType} from "antd/es/table";
-import {Modal, Table} from "antd";
+import {Modal, Table, Tag} from "antd";
 
 import {InputGlobal} from "@app/components/InputGlobal";
 import ErrorMessageGlobal from "@app/components/ErrorMessageGlobal";
@@ -65,6 +65,7 @@ export function ManagerUser(): JSX.Element {
                     email: user.email,
                     id: user.id,
                     name: user.name,
+                    status: user.status,
                   };
                 }
               }
@@ -113,16 +114,6 @@ export function ManagerUser(): JSX.Element {
     },
   ];
   const columns: ColumnsType<DataType> = [
-    // {
-    //   title: "STT",
-    //   dataIndex: "stt",
-    //   key: "stt",
-    //   align: "center",
-    //   width: 80,
-    //   render: (_, dataIndex: any) => (
-    //     <div>{dataOnlyClass.listUser.indexOf(dataIndex) + 1}</div>
-    //   ),
-    // },
     {
       title: "id",
       dataIndex: "id",
@@ -145,20 +136,13 @@ export function ManagerUser(): JSX.Element {
       align: "center",
       width: 120,
     },
-    {
-      title: "MSV",
-      dataIndex: "email",
-      key: "email",
-      align: "center",
-      width: 120,
-    },
-    {
-      title: "Lớp",
-      dataIndex: "email",
-      key: "email",
-      align: "center",
-      width: 120,
-    },
+    // {
+    //   title: "Lớp",
+    //   dataIndex: "email",
+    //   key: "email",
+    //   align: "center",
+    //   width: 120,
+    // },
   ];
   const listInputUser = [
     {

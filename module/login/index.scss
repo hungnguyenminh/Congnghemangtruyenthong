@@ -1,61 +1,75 @@
-.login-container {
+.login-main {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
+  align-items: center;
+  background-image: url("https://t4.ftcdn.net/jpg/04/03/62/35/360_F_403623508_OhrbkZ1zc2NzB9mN1d2ZcO1WrBDGKsxY.jpg");
 
-  .logo_visang {
-    position: fixed;
-    top: 0;
-    left: 20px;
-    height: 80px;
-  }
+  .login-container {
+    margin: 0 auto;
+    background-color: hsla(0, 0%, 100%, 0.5);
+    padding: 40px 30px;
+    border-radius: 15px;
 
-  .logo {
-    height: 200px;
-  }
+    &:hover {
+      background-color: white;
+    }
 
-  .login-form-item {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    .input_login {
-      width: 370px;
+    .logo_visang {
+      position: fixed;
+      top: 0;
+      left: 20px;
+      height: 80px;
+    }
+
+    .logo {
+      height: 200px;
+    }
+
+    .login-form-item {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      .input_login {
+        width: 370px;
+        height: 50px;
+      }
+    }
+
+    .forgot-password-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+
+      .forgot-password_link {
+        color: #1890ff;
+        cursor: pointer;
+      }
+    }
+
+    .btn-login {
       height: 50px;
+      width: 370px;
+      margin-left: 0;
+    }
+
+    .list-login-social {
+      display: flex;
+      justify-content: center;
+
+      .login-google {
+        font-size: 45px;
+        color: red;
+        margin: 0 7px;
+      }
+
+      .login-github {
+        font-size: 45px;
+        margin: 0 7px;
+      }
     }
   }
 
-  .forgot-password-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-
-    .forgot-password_link {
-      color: #1890ff;
-      cursor: pointer;
-    }
-  }
-
-  .btn-login {
-    height: 50px;
-    width: 370px;
-    margin-left: 0;
-  }
-
-  .list-login-social {
-    display: flex;
-    justify-content: center;
-
-    .login-google {
-      font-size: 45px;
-      color: red;
-      margin: 0 7px;
-    }
-
-    .login-github {
-      font-size: 45px;
-      margin: 0 7px;
-    }
-  }
 }
