@@ -11,9 +11,10 @@
     background-color: hsla(0, 0%, 100%, 0.5);
     padding: 40px 30px;
     border-radius: 15px;
+    transition: all 400ms;
 
     &:hover {
-      background-color: white;
+      background-color: rgba(255,255,255, 0.8);
     }
 
     .logo_visang {

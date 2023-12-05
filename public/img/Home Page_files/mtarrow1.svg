@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="899" height="506" viewBox="0 0 899 506" fill="none">
+  <circle cx="893" cy="500" r="6" fill="#D9D9D9"></circle>
+  <path d="M893 500V6H9" stroke="#C5C5C5" stroke-width="2" stroke-dasharray="10 10"></path>
+  <path d="M2.32119 5.07152C1.48305 5.40678 1.48305 6.59322 2.32119 6.92848L13.6286 11.4514C14.2855 11.7142 15 11.2304 15 10.523L15 1.47703C15 0.769569 14.2855 0.285811 13.6286 0.548557L2.32119 5.07152Z" fill="#C5C5C5"></path>
+</svg>
